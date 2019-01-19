@@ -13,6 +13,7 @@ type Instance struct {
 
 func New(config *evtconfig.Instance) *Instance {
 	c := client.New(config)
+
 	return &Instance{
 		V1: v1.New(config, c),
 	}

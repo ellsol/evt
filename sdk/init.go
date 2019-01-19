@@ -5,12 +5,9 @@ import (
 	"github.com/ellsol/evt/evtconfig"
 )
 
-
-
 type Instance struct {
 	Api *api.Instance
 }
-
 
 func New(config *evtconfig.Instance) *Instance {
 	return &Instance{

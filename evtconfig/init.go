@@ -9,7 +9,6 @@ const version1 = "v1"
 type Instance struct {
 	HttpPath string
 	Version  string
-
 	Log *logrus.Logger
 }
 

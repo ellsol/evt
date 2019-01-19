@@ -8,10 +8,10 @@ type GetTransactionIdsForBlockRequest struct {
 
 type GetTransactionIdsForBlockResult = []string
 
-func (it *Instance) GetTransactionIdsForBlock(request *GetTransactionIdsForBlockRequest) (*GetTransactionIdsForBlockResult, *client.ApiError) {
+func (it *Instance) GetTransactionIdsForBlock(blockId string) (*GetTransactionIdsForBlockResult, *client.ApiError) {
 	response := &GetTransactionIdsForBlockResult{}
 
-	err := it.Client.Post(it.Path("get_transaction_ids_for_block"), request, response)
+	err := it.Client.Post(it.Path("get_transaction_ids_for_block"), &GetTransactionIdsForBlockRequest{blockId}, response)
 
 	if err != nil {
 		return nil, err
