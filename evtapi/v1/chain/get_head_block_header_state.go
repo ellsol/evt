@@ -1,6 +1,6 @@
 package chain
 
-import "github.com/ellsol/evt/api/client"
+import "github.com/ellsol/evt/evtapi/client"
 
 type Header struct {
 	Timestamp         string        `json:"timestamp"`

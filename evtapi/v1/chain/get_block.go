@@ -1,6 +1,6 @@
 package chain
 
-import "github.com/ellsol/evt/api/client"
+import "github.com/ellsol/evt/evtapi/client"
 
 type GetBlockRequest struct {
 	BlockNumOrID string `json:"block_num_or_id"`

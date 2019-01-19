@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 	"github.com/davecgh/go-spew/spew"
-	"github.com/ellsol/evt/api/v1/chain"
+	"github.com/ellsol/evt/evtapi/v1/chain"
 	"github.com/ellsol/evt/evtconfig"
-	"github.com/ellsol/evt/sdk"
+	"github.com/ellsol/evt/evtsdk"
 	"log"
 )
 
@@ -13,7 +13,7 @@ const testNetwork = "http://testnet1.everitoken.io:8888"
 const mainNetwork = "http://mainnet2.everitoken.io"
 
 func main() {
-	evt := sdk.New(evtconfig.New(testNetwork))
+	evt := evtsdk.New(evtconfig.New(testNetwork))
 
 
 	info, err := evt.Api.V1.Chain.GetInfo()

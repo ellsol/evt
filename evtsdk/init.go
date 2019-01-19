@@ -1,17 +1,17 @@
-package sdk
+package evtsdk
 
 import (
-	"github.com/ellsol/evt/api"
+	"github.com/ellsol/evt/evtapi"
 	"github.com/ellsol/evt/evtconfig"
 )
 
 type Instance struct {
-	Api *api.Instance
+	Api *evtapi.Instance
 }
 
 func New(config *evtconfig.Instance) *Instance {
 	return &Instance{
-		Api:api.New(config),
+		Api: evtapi.New(config),
 	}
 }
 

@@ -1,8 +1,8 @@
-package api
+package evtapi
 
 import (
-	"github.com/ellsol/evt/api/client"
-	"github.com/ellsol/evt/api/v1"
+	"github.com/ellsol/evt/evtapi/client"
+	"github.com/ellsol/evt/evtapi/v1"
 	"github.com/ellsol/evt/evtconfig"
 )
 

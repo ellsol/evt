@@ -1,4 +1,4 @@
-package types
+package evttypes
 
 type Action struct {
 	Name   string `json:"name"`

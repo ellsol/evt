@@ -2,7 +2,7 @@ package chain
 
 import (
 	"fmt"
-	"github.com/ellsol/evt/api/client"
+	"github.com/ellsol/evt/evtapi/client"
 	"github.com/ellsol/evt/evtconfig"
 )
 

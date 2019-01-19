@@ -1,4 +1,4 @@
-# Golang SDK for everiToken
+# everiToken API library for Golang
 
 ## Includes 
 
@@ -6,16 +6,12 @@
 2. everiToken Wallet
 3. Processes for posting actions
 
-## Init
+## Basic Usage
 
 Create a configuration and the sdk
 
     config := evtconfig.New(httpPath)
-    sdk := sdk.New(config)
-
-### Api
-
-e.g.
-
+    sdk := evtsdk.New(config)
     result, err := sdk.api.v1.chain.GetBlock()
+ 
     
