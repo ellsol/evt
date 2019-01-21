@@ -17,17 +17,64 @@ type GetBlockResult struct {
 	NewProducers      interface{}   `json:"new_producers"`
 	HeaderExtensions  []interface{} `json:"header_extensions"`
 	ProducerSignature string        `json:"producer_signature"`
-	Transactions      []interface{} `json:"transactions"`
+	Transactions      []Transaction `json:"transactions"`
 	BlockExtensions   []interface{} `json:"block_extensions"`
 	ID                string        `json:"id"`
 	BlockNum          int           `json:"block_num"`
 	RefBlockPrefix    int           `json:"ref_block_prefix"`
 }
 
-func (it *Instance) GetBlock(request *GetBlockRequest) (*GetBlockResult, *client.ApiError) {
+type Transaction struct {
+	Status string `json:"status"`
+	Type   string `json:"type"`
+	Trx    Trx    `json:"trx"`
+}
+
+type Trx struct {
+	ID                    string           `json:"id"`
+	Signatures            []string         `json:"signatures"`
+	Compression           string           `json:"compression"`
+	PackedTrx             string           `json:"packed_trx"`
+	InnerInnerTransaction InnerTransaction `json:"transaction"`
+}
+type InnerTransaction struct {
+	Expiration            string        `json:"expiration"`
+	RefBlockNum           int           `json:"ref_block_num"`
+	RefBlockPrefix        int64         `json:"ref_block_prefix"`
+	MaxCharge             int           `json:"max_charge"`
+	Actions               []Action      `json:"actions"`
+	Payer                 string        `json:"payer"`
+	TransactionExtensions []interface{} `json:"transaction_extensions"`
+}
+
+type Action struct {
+	Name    string `json:"name"`
+	Domain  string `json:"domain"`
+	Key     string `json:"key"`
+	Data    Data   `json:"data"`
+	HexData string `json:"hex_data"`
+}
+
+type Data struct {
+	Link Link `json:"link"`
+}
+
+type Link struct {
+	Header     int       `json:"header"`
+	Segments   []Segment `json:"segments"`
+	Signatures []string  `json:"signatures"`
+	Keys       []string  `json:"keys"`
+}
+
+type Segment struct {
+	Key int `json:"key"`
+	//Value string `json:"value"`
+}
+
+func (it *Instance) GetBlock(blockNumOrId string) (*GetBlockResult, *client.ApiError) {
 	response := &GetBlockResult{}
 
-	err := it.Client.Post(it.Path("get_block"), request, response)
+	err := it.Client.Post(it.Path("get_block"), &GetBlockRequest{BlockNumOrID: blockNumOrId}, response)
 
 	if err != nil {
 		return nil, err

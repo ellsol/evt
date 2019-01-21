@@ -59,7 +59,7 @@ func (it *ApiError) String() string {
 	if it.IsServerError() {
 		bb.WriteString("Server Error")
 		bb.WriteString(fmt.Sprintf("\nCode: %v\n", it.ServerErrorResponse.Code))
-		bb.WriteString(fmt.Sprintf("Message: %v'n", it.ServerErrorResponse.Message))
+		bb.WriteString(fmt.Sprintf("Message: %v\n", it.ServerErrorResponse.Message))
 		bb.WriteString(fmt.Sprintf("What: %v\n", it.ServerErrorResponse.Error.What))
 
 		bb.WriteString("Details: ")
@@ -68,8 +68,7 @@ func (it *ApiError) String() string {
 
 			bb.WriteString("\n")
 			bb.WriteString(".......................\n")
-			bb.WriteString(fmt.Sprintf("%v\n", v.Method))
-			bb.WriteString(fmt.Sprintf("%v\n", v.Message))
+			bb.WriteString(fmt.Sprintf("Method: %v \nMessage: %v\n", v.Method, v.Message, ))
 		}
 
 	} else {
