@@ -4,12 +4,14 @@ import (
 	"github.com/ellsol/evt/evtapi/client"
 	"github.com/ellsol/evt/evtapi/v1/chain"
 	"github.com/ellsol/evt/evtapi/v1/evt"
+	"github.com/ellsol/evt/evtapi/v1/evt_link"
 	"github.com/ellsol/evt/evtapi/v1/history"
 	"github.com/ellsol/evt/evtconfig"
 )
 
 type Instance struct {
 	Chain   *chain.Instance
+	EvtLink *evt_link.Instance
 	Evt     *evt.Instance
 	History *history.Instance
 }

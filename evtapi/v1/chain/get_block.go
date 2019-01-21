@@ -25,17 +25,17 @@ type GetBlockResult struct {
 }
 
 type Transaction struct {
-	Status string `json:"status"`
-	Type   string `json:"type"`
-	Trx    Trx    `json:"trx"`
+	Status string               `json:"status"`
+	Type   string               `json:"type"`
+	Trx    TransactionExtension `json:"trx"`
 }
 
-type Trx struct {
-	ID                    string           `json:"id"`
-	Signatures            []string         `json:"signatures"`
-	Compression           string           `json:"compression"`
-	PackedTrx             string           `json:"packed_trx"`
-	InnerInnerTransaction InnerTransaction `json:"transaction"`
+type TransactionExtension struct {
+	ID               string           `json:"id"`
+	Signatures       []string         `json:"signatures"`
+	Compression      string           `json:"compression"`
+	PackedTrx        string           `json:"packed_trx"`
+	InnerTransaction InnerTransaction `json:"transaction"`
 }
 type InnerTransaction struct {
 	Expiration            string        `json:"expiration"`

@@ -26,18 +26,17 @@ Create a configuration and the evt instance
 - [ ] [chain/trx_json_to_digest](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US) 
 - [ ] [chain/get_required_keys](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US) 
 - [ ] [chain/push_transaction](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US) 
-- [ ] [chain/get_suspend_required_keys](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US) 
-- [ ] [chain/get_charge](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US) 
+- [ ] [chain/get_suspend_required_keys](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US)  
 - [x] [chain/get_block](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US) 
 - [ ] [chain/get_charge](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US) 
-- [ ] [chain/get_block_header_state](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US) 
-- [ ] [chain/get_transaction](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US) 
-- [ ] [chain/get_trx_id_for_link_id](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US)
+- [x] [chain/get_block_header_state](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US) 
+- [x] [chain/get_transaction](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US) 
+- [x] [chain/get_trx_id_for_link_id](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US)
 - [x] [chain/get_transaction_ids_for_block](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US)
 
 ### Evt_Link
 
-- [ ] [evt_link/get_trx_id_for_link_id](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US)
+- [x] [evt_link/get_trx_id_for_link_id](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US)
 
 ### Evt
 
@@ -45,12 +44,9 @@ Create a configuration and the evt instance
 - [x] [evt/get_group](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US)
 - [x] [evt/get_token](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US)
 - [x] [evt/get_tokens](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US)
-- [ ] [evt/get_fungible](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US)
-- [ ] [evt/get_fungible_balance](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US)
-- [ ] [evt/get_suspend](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US)
-- [ ] [evt/get_fungible](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US)
-- [ ] [evt/get_fungible_balance](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US)
-- [ ] [evt/get_suspend](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US)
+- [x] [evt/get_fungible](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US)
+- [x] [evt/get_fungible_balance](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US)
+- [x] [evt/get_suspend](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US) 
  
 
 ### History

@@ -24,31 +24,39 @@ func New(config *evtconfig.Instance, logger *logrus.Logger) *Instance {
 
 func (it *Instance) Post(path string, body interface{}, response interface{}) *ApiError {
 	url := it.getUrl(path)
-	it.logger.Infof("client: posting to %v with body %+v\n", url, body)
+	it.logger.Tracef("post to %v with body %+v\n", url, body)
 
 	bbody, err := json.Marshal(body)
 
 	if err != nil {
-		return NewApiError(fmt.Errorf("client:Post parsing error %v", err))
+		return NewApiError(fmt.Errorf("post parsing error %v", err))
 	}
 
 	resp, err := http.Post(url, "application/json", bytes.NewReader(bbody))
 
 	if err != nil {
-		return NewApiError(fmt.Errorf("client:Post request error %v", err))
+		return NewApiError(fmt.Errorf("post request error %v", err))
 	}
 
 	b, err := ioutil.ReadAll(resp.Body)
+
+	if err != nil {
+		return NewApiError(fmt.Errorf("post parsing response error %v", err))
+	}
+
 	defer resp.Body.Close()
 
 	if resp.StatusCode >= 300 {
 		return parseError(b)
 	}
 
-	//log.Println("Raw: ", string(b))
-
-	if err != nil {
-		return NewApiError(fmt.Errorf("client:Post parsing response error %v", err))
+	if it.logger.IsLevelEnabled(logrus.TraceLevel) {
+		var prettyJSON bytes.Buffer
+		err = json.Indent(&prettyJSON, b, "", "\t")
+		if err != nil {
+			return NewApiError(err)
+		}
+		it.logger.Tracef("JSON Response: \n%v\n", string(prettyJSON.Bytes()))
 	}
 
 	err = json.Unmarshal(b, &response)
@@ -64,10 +72,10 @@ func (it *Instance) Get(path string, response interface{}) *ApiError {
 	url := it.getUrl(path)
 	resp, err := http.Get(url)
 
-	it.logger.Infof("client: get %v\n", url)
+	it.logger.Tracef("get %v\n", url)
 
 	if err != nil {
-		return NewApiError(fmt.Errorf("http get request: %v", err))
+		return NewApiError(fmt.Errorf("get request: %v", err))
 	}
 
 	b, err := ioutil.ReadAll(resp.Body)
@@ -78,7 +86,7 @@ func (it *Instance) Get(path string, response interface{}) *ApiError {
 	}
 
 	if err != nil {
-		return NewApiError(fmt.Errorf("http get: %v", err))
+		return NewApiError(fmt.Errorf("get: %v", err))
 	}
 
 	err = json.Unmarshal(b, &response)

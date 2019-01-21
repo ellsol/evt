@@ -17,7 +17,7 @@ func (it *ApiError) IsServerError() bool {
 
 func NewApiError(err error) *ApiError {
 	return &ApiError{
-		Error: err,
+		Error: fmt.Errorf("client: %v\n", err.Error()),
 	}
 }
 
