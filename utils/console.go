@@ -2,9 +2,10 @@ package utils
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
+	"github.com/sirupsen/logrus"
 )
-
 
 const (
 	ConsoleColorPrefixFirst  = "\x1b["
@@ -37,9 +38,21 @@ func ConsoleWriteLabeledValueI(label string, value interface{}) string {
 	return bb.String()
 }
 
-
-
-
 func PrintColoredln(label string, value interface{}) {
 	fmt.Print(ConsoleWriteLabeledValueI(label, value))
+}
+
+func ShowJsonFormatOfStruct(i interface{}) string {
+	b, err := json.Marshal(i)
+
+	if err != nil {
+		logrus.Error("couldn't marshal interface")
+		return ""
+	}
+	var prettyJSON bytes.Buffer
+	err = json.Indent(&prettyJSON, b, "", "\t")
+	if err != nil {
+		logrus.Error("couldn't marshal interface")
+	}
+	return string(prettyJSON.Bytes())
 }

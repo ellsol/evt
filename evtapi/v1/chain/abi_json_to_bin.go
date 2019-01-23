@@ -1,11 +1,11 @@
 package chain
 
-import "github.com/ellsol/evt/evtapi/client"
+import (
+	"github.com/ellsol/evt/evtapi/client"
+	"github.com/ellsol/evt/evttypes"
+)
 
-type AbiJsonToBinRequest struct {
-	Action string `json:"action"`
-	Args   Args   `json:"args"`
-}
+type AbiJsonToBinRequest = evttypes.ActionArguments
 
 type AbiJsonToBinResult struct {
 	Binargs string `json:"binargs"`

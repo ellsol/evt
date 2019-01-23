@@ -12,9 +12,58 @@ Create a configuration and the evt instance
 
     config := evtconfig.New(httpPath)
     evtinstance := evt.New(config)
-    result, err := evtinstance.api.v1.chain.GetBlock()
+    result, err := evtinstance.Api.V1.Chain.GetInfo()
  
+## Create a wallet
+
+    privateKey, err := ecc.NewRandomPrivateKey()
     
+and to save and load it use (no encryption enforced yet)
+
+    privateKey.Save("some_wallet_file")
+    
+    privateKey, err := ecc.LoadPrivateKey("some_wallet_file")
+    
+## Example Fungible
+
+#### Create Fungible
+
+    
+	nf := transaction.NewNewFungible(
+		"MyCoin",
+		privateKey.PublicKey().String(),
+		"MC",
+		"9000",
+		4,
+		"2000000.0000").
+		SetManageRole(1, evttypes.SingleAddressAuthorizer(privateKey.PublicKey().String())).
+		SetIssueRole(1, evttypes.SingleAddressAuthorizer(privateKey.PublicKey().String()))
+
+
+	transactionResult, err := transaction.Deploy(nf, privKey, evt)
+	
+
+#### Issue Fungible
+
+
+	ifu := transaction.NewIssueFungible(
+		privKey.PublicKey().String(),
+		"2000000.0000",
+		"9000")
+	
+	transactionResult, err := transaction.Deploy(ifu, privateKey, evt)
+
+#### Transfer Fungible to someone
+    
+    
+	tf := transaction.NewTransferFungible(
+		"EVT6f4...",
+		"EVT134...",
+		"10.00",
+		"9000")
+
+	transactionResult, err := transaction.Deploy(tf, privateKey, evtinstance)
+	
 
 ## Api methods supported (so far...)
 
@@ -23,9 +72,9 @@ Create a configuration and the evt instance
 - [x] [chain/get_info](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US) 
 - [x] [chain/get_head_block_header_state](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US) 
 - [x] [chain/abi_json_to_bin](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US) 
-- [ ] [chain/trx_json_to_digest](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US) 
+- [x] [chain/trx_json_to_digest](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US) 
 - [ ] [chain/get_required_keys](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US) 
-- [ ] [chain/push_transaction](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US) 
+- [x] [chain/push_transaction](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US) 
 - [ ] [chain/get_suspend_required_keys](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US)  
 - [x] [chain/get_block](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US) 
 - [ ] [chain/get_charge](https://www.everitoken.io/developers/apis,_sdks_and_tools/api_reference/en_US) 

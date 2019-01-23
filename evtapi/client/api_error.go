@@ -3,11 +3,12 @@ package client
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 )
 
 type ApiError struct {
-	Error               error
+	Err                 error
 	ServerErrorResponse *ServerError
 }
 
@@ -17,7 +18,7 @@ func (it *ApiError) IsServerError() bool {
 
 func NewApiError(err error) *ApiError {
 	return &ApiError{
-		Error: fmt.Errorf("client: %v\n", err.Error()),
+		Err: fmt.Errorf("client: %v\n", err.Error()),
 	}
 }
 
@@ -28,7 +29,7 @@ func parseError(b []byte) (*ApiError) {
 
 	if err != nil {
 		return &ApiError{
-			Error: err,
+			Err: err,
 		}
 	}
 
@@ -72,8 +73,16 @@ func (it *ApiError) String() string {
 		}
 
 	} else {
-		bb.WriteString(it.Error.Error())
+		bb.WriteString(it.Err.Error())
 	}
 
 	return bb.String()
+}
+
+func (it *ApiError) Error() error {
+	if it.IsServerError() {
+		return errors.New(it.String())
+	}
+
+	return it.Err
 }

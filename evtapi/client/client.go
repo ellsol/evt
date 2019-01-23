@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/ellsol/evt/evtconfig"
+	"github.com/ellsol/evt/utils"
 	"github.com/sirupsen/logrus"
 	"io/ioutil"
 	"net/http"
@@ -24,7 +25,7 @@ func New(config *evtconfig.Instance, logger *logrus.Logger) *Instance {
 
 func (it *Instance) Post(path string, body interface{}, response interface{}) *ApiError {
 	url := it.getUrl(path)
-	it.logger.Tracef("post to %v with body %+v\n", url, body)
+	it.logger.Tracef("post to %v with body %+v\n", url, utils.ShowJsonFormatOfStruct(body))
 
 	bbody, err := json.Marshal(body)
 
