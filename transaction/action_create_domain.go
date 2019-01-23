@@ -5,7 +5,7 @@ import (
 	"github.com/ellsol/evt/evttypes"
 )
 
-type TransactionMaker struct {
+type CreateDomain struct {
 	Name     string
 	Creator  *ecc.PrivateKey
 	Issue    *evttypes.Role
@@ -13,14 +13,14 @@ type TransactionMaker struct {
 	Manage   *evttypes.Role
 }
 
-func CreateTransaction(name string, creator *ecc.PrivateKey) *TransactionMaker {
-	return &TransactionMaker{
+func NewCreateDomain(name string, creator *ecc.PrivateKey) *CreateDomain {
+	return &CreateDomain{
 		Name:    name,
 		Creator: creator,
 	}
 }
 
-func (it *TransactionMaker) SetIssue(treshold int, authorizer *evttypes.Authorizer) *TransactionMaker {
+func (it *CreateDomain) SetIssue(treshold int, authorizer *evttypes.Authorizer) *CreateDomain {
 	it.Issue = &evttypes.Role{
 		Name:        "issue",
 		Threshold:   treshold,
@@ -29,7 +29,7 @@ func (it *TransactionMaker) SetIssue(treshold int, authorizer *evttypes.Authoriz
 	return it
 }
 
-func (it *TransactionMaker) SetTransfer(treshold int, authorizer *evttypes.Authorizer) *TransactionMaker {
+func (it *CreateDomain) SetTransfer(treshold int, authorizer *evttypes.Authorizer) *CreateDomain {
 	it.Transfer = &evttypes.Role{
 		Name:        "transfer",
 		Threshold:   treshold,
@@ -38,7 +38,7 @@ func (it *TransactionMaker) SetTransfer(treshold int, authorizer *evttypes.Autho
 	return it
 }
 
-func (it *TransactionMaker) SetManage(treshold int, authorizer *evttypes.Authorizer) *TransactionMaker {
+func (it *CreateDomain) SetManage(treshold int, authorizer *evttypes.Authorizer) *CreateDomain {
 	it.Manage = &evttypes.Role{
 		Name:        "manage",
 		Threshold:   treshold,
