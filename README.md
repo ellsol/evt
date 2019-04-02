@@ -24,46 +24,10 @@ and to save and load it use (no encryption enforced yet)
     
     privateKey, err := ecc.LoadPrivateKey("some_wallet_file")
     
-## Example Fungible
+## EVT Actions
 
-#### Create Fungible
-
-    
-	nf := transaction.NewNewFungible(
-		"MyCoin",
-		privateKey.PublicKey().String(),
-		"MC",
-		"9000",
-		4,
-		"2000000.0000").
-		SetManageRole(1, evttypes.SingleAddressAuthorizer(privateKey.PublicKey().String())).
-		SetIssueRole(1, evttypes.SingleAddressAuthorizer(privateKey.PublicKey().String()))
-
-
-	transactionResult, err := transaction.Deploy(nf, privKey, evt)
-	
-
-#### Issue Fungible
-
-
-	ifu := transaction.NewIssueFungible(
-		privKey.PublicKey().String(),
-		"2000000.0000",
-		"9000")
-	
-	transactionResult, err := transaction.Deploy(ifu, privateKey, evt)
-
-#### Transfer Fungible to someone
-    
-    
-	tf := transaction.NewTransferFungible(
-		"EVT6f4...",
-		"EVT134...",
-		"10.00",
-		"9000")
-
-	transactionResult, err := transaction.Deploy(tf, privateKey, evtinstance)
-	
+* [Fungible](docs/fungibile.md)
+ 
 
 ## Api methods supported (so far...)
 

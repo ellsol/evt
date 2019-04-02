@@ -11,26 +11,56 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func Deploy(action EvtAction, privateKey *ecc.PrivateKey, evt *evt.Instance) (*chain.PushTransactionResult, error) {
+func Deploy(action EvtActionParam, privateKey *ecc.PrivateKey, evt *evt.Instance) (*chain.PushTransactionResult, error) {
+	trxJson, digest, err := Prepare(action, privateKey.PublicKey().String(), evt)
+
+	if err != nil {
+		logrus.Error(err)
+		return nil, err
+	}
+
+	signature, err := signDigest(digest, privateKey)
+
+	if err != nil {
+		logrus.Error(err)
+		return nil, err
+	}
+
+	return Post(&evttypes.SignedTRXJson{
+		Transaction: trxJson,
+		Compression: "none",
+		Signatures:  []string{signature},
+	}, evt)
+}
+
+func Prepare(action EvtActionParam, publicKey string, evt *evt.Instance) (*evttypes.TRXJson, string, error) {
 	abiJsonToBinResult, apiError := evt.Api.V1.Chain.AbiJsonToBin(action.Arguments())
 
 	if apiError != nil {
 		logrus.Error(apiError)
-		return nil, apiError.Error()
+		return nil, "", apiError.Error()
 	}
 
-	trxJson, err := getTrxJsonBase(privateKey, evt)
+	trxJson, err := getTrxJsonBase(publicKey, evt)
 
 	if err != nil {
-		return nil, err
+		logrus.Error(apiError)
+		return nil, "", err
 	}
 
 	trxJson.Actions = []evttypes.SimpleAction{*action.Action(abiJsonToBinResult.Binargs)}
 
-	return signAndPostTransaction(trxJson, privateKey, evt)
+	digest, err := receiveDigest(trxJson, evt)
+
+	if err != nil {
+		logrus.Error(apiError)
+		return nil, "", err
+	}
+
+	return trxJson, digest, err
 }
 
-func getTrxJsonBase(privateKey *ecc.PrivateKey, evt *evt.Instance) (*evttypes.TRXJson, error) {
+func getTrxJsonBase(publicKey string, evt *evt.Instance) (*evttypes.TRXJson, error) {
 	info, apiError := evt.Api.V1.Chain.GetInfo()
 
 	if apiError != nil {
@@ -42,29 +72,32 @@ func getTrxJsonBase(privateKey *ecc.PrivateKey, evt *evt.Instance) (*evttypes.TR
 	return &evttypes.TRXJson{
 		RefBlockNum:           int(refBlockNum),
 		RefBlockPrefix:        int(refBlockPrefix),
-		Payer:                 privateKey.PublicKey().String(),
+		Payer:                 publicKey,
 		Expiration:            utils.In5Mins(),
 		MaxCharge:             10000,
 		TransactionExtensions: make([]interface{}, 0),
 	}, nil
 }
 
-func signAndPostTransaction(trxJson *evttypes.TRXJson, privKey *ecc.PrivateKey, evt *evt.Instance) (*chain.PushTransactionResult, error) {
-	// Step 1 Get Transaction Digest
+func receiveDigest(trxJson *evttypes.TRXJson, evt *evt.Instance) (string, error) {
 	digest, apiError := evt.Api.V1.Chain.TRXJsonToDigest(trxJson)
 
 	if apiError != nil {
 		logrus.Error(apiError)
-		return nil, apiError.Error()
+		return "", apiError.Error()
 	}
 
 	logrus.Tracef("Received Digest: %v\n", digest.Digest)
 
-	b, err := hex.DecodeString(digest.Digest)
+	return digest.Digest, nil
+}
+
+func signDigest(digest string, privKey *ecc.PrivateKey) (string, error) {
+	b, err := hex.DecodeString(digest)
 
 	if err != nil {
 		logrus.Error(err)
-		return nil, err
+		return "", err
 	}
 
 	// Step 2 Sign Transaction
@@ -72,13 +105,16 @@ func signAndPostTransaction(trxJson *evttypes.TRXJson, privKey *ecc.PrivateKey, 
 
 	if err != nil {
 		logrus.Error(err)
-		return nil, err
+		return "", err
 	}
 
 	logrus.Tracef("Signed Transaction: ", signature.String())
 
-	// Step 3 Push Transaction
-	pushTransactionResult, apiError := evt.Api.V1.Chain.PushTransaction([]string{signature.String()}, trxJson)
+	return signature.String(), nil
+}
+
+func Post(signedTrxJson *evttypes.SignedTRXJson, evt *evt.Instance) (*chain.PushTransactionResult, error) {
+	pushTransactionResult, apiError := evt.Api.V1.Chain.PushTransaction(signedTrxJson)
 
 	if apiError != nil {
 		logrus.Println(apiError.String())
@@ -89,7 +125,6 @@ func signAndPostTransaction(trxJson *evttypes.TRXJson, privKey *ecc.PrivateKey, 
 
 	return pushTransactionResult, nil
 }
-
 
 func getNumAndRefFromBlockID(lastReversibleblockId string) (int, int) {
 	headBlockId, err := hex.DecodeString(lastReversibleblockId)
@@ -104,4 +139,3 @@ func getNumAndRefFromBlockID(lastReversibleblockId string) (int, int) {
 
 	return int(refBlockNum), int(refBlockPrefix)
 }
-

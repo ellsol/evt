@@ -9,3 +9,9 @@ type TRXJson struct {
 	Actions               []SimpleAction `json:"actions"`
 	TransactionExtensions []interface{}  `json:"transaction_extensions"`
 }
+
+type SignedTRXJson struct {
+	Signatures  []string `json:"signatures"`
+	Compression string   `json:"compression"`
+	Transaction *TRXJson `json:"transaction"`
+}

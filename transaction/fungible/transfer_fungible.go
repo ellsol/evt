@@ -1,11 +1,10 @@
-package transaction
+package fungible
 
 import "github.com/ellsol/evt/evttypes"
 
 const actionNameTransferFungible = "transferft"
-const fungibleDomain = ".fungible"
 
-type TransferFungible struct {
+type TransferFungibleParams struct {
 	from       string
 	to         string
 	asset      *evttypes.Asset
@@ -13,17 +12,8 @@ type TransferFungible struct {
 	memo       string
 }
 
-func NewTransferFungible(from string, to string, value string, fungibleId string) *TransferFungible {
-	return &TransferFungible{
-		from,
-		to,
-		evttypes.NewAsset(value, fungibleId),
-		fungibleId,
-		"",
-	}
-}
 
-func (it *TransferFungible) SetMemo(memo string) *TransferFungible {
+func (it *TransferFungibleParams) SetMemo(memo string) *TransferFungibleParams {
 	it.memo = memo
 	return it
 }
@@ -35,7 +25,7 @@ type TransferFungibleArguments struct {
 	Memo   string `json:"memo"`   // string
 }
 
-func (it *TransferFungible) Arguments() *evttypes.ActionArguments {
+func (it *TransferFungibleParams) Arguments() *evttypes.ActionArguments {
 	arg := TransferFungibleArguments{
 		From:   it.from,
 		To:     it.to,
@@ -49,7 +39,7 @@ func (it *TransferFungible) Arguments() *evttypes.ActionArguments {
 	}
 }
 
-func (it *TransferFungible) Action(binargs string) *evttypes.SimpleAction {
+func (it *TransferFungibleParams) Action(binargs string) *evttypes.SimpleAction {
 	return &evttypes.SimpleAction{
 		Data: binargs,
 		Action: evttypes.Action{

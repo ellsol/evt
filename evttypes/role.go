@@ -2,26 +2,17 @@ package evttypes
 
 import "fmt"
 
-type Role struct {
-	Name        string       `json:"name"`
-	Threshold   int          `json:"threshold"`
-	Authorizers []Authorizer `json:"authorizers"`
-}
 
-type Authorizer struct {
-	Ref    string `json:"ref"`
-	Weight int    `json:"weight"`
-}
 
-func GroupOwnedAuthorizer() *Authorizer {
-	return &Authorizer{
+func GroupOwnedAuthorizer() *AuthorizerWeight {
+	return &AuthorizerWeight{
 		Ref:    "[G] Owner",
 		Weight: 1,
 	}
 }
 
-func SingleAddressAuthorizer(address string) *Authorizer {
-	return &Authorizer{
+func SingleAddressAuthorizer(address string) *AuthorizerWeight {
+	return &AuthorizerWeight{
 		Ref:    fmt.Sprintf("[A] %v", address),
 		Weight: 1,
 	}

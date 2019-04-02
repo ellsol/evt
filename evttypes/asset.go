@@ -34,10 +34,6 @@ For example, 12.00000 S#1 is a valid EVT asset, and it has the precision of 5 an
 Its symbol expression is 5,S#1.
 Then 7,S#123 represents a asset symbol with precision of 7 and '123' as symbol id.
 */
-func GetSymbol(precision int, id string) string {
-	return fmt.Sprintf("%v,S#%v", precision, id)
-}
-
 type Symbol struct {
 	precision int
 	id        string

@@ -2,6 +2,7 @@ package ecc
 
 import (
 	"io/ioutil"
+	"log"
 )
 
 func (it *PrivateKey) Save(filename string) error {
@@ -20,6 +21,8 @@ func LoadPrivateKey(filename string) (*PrivateKey, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	log.Println(string(b))
 
 	return NewPrivateKey(string(b))
 }

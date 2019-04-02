@@ -23,10 +23,10 @@ type ActionArguments struct {
 }
 
 type Args struct {
-	Name        string `json:"name"`
-	Creator     string `json:"creator"`
-	Issue       *Role  `json:"issue,omitempty"`
-	Transfer    *Role  `json:"transfer,omitempty"`
-	Manage      *Role  `json:"manage,omitempty"`
-	TotalSupply int64  `json:"total_supply,omitempty"`
+	Name        string         `json:"name"`
+	Creator     string         `json:"creator"`
+	Issue       *PermissionDef `json:"issue,omitempty"`
+	Transfer    *PermissionDef `json:"transfer,omitempty"`
+	Manage      *PermissionDef `json:"manage,omitempty"`
+	TotalSupply int64          `json:"total_supply,omitempty"`
 }
